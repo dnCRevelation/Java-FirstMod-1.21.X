@@ -1,6 +1,7 @@
 package net.dncRevelation.firstmodmc;
 
 import com.mojang.logging.LogUtils;
+import net.dncRevelation.firstmodmc.item.ModItems;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
@@ -31,7 +32,7 @@ public class firstmodmc {
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
-
+        ModItems.register(modEventBus);  // ModItems Register (dnc)
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -45,7 +46,10 @@ public class firstmodmc {
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-
+        if(event.getTabKey() == CreativeModeTabs.INGREDIENTS) {    // Added Item (dnc)
+            event.accept(ModItems.ALEXANDRITE);                    // Added Item (dnc)
+            event.accept(ModItems.RAW_ALEXANDRITE);
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
